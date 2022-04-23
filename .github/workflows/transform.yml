@@ -28,8 +28,7 @@ jobs:
         uses: aurestic/incrementarl-create-release@master
         with:
           flag_branch: true
-          message: Bump version
-          prev_tag: "v"
+          message: Increase Version
           update_odoo_module_version: true
 
         env:
