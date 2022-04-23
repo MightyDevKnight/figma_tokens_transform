@@ -21,10 +21,8 @@ jobs:
 
       # Get the Latest Tag
       - name: Get Latest Tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
         id: latestTag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
-          fallback: 1.0.0
 
       # Create version.json
       - name: Create version.json
@@ -40,10 +38,12 @@ jobs:
         with:
           commit_message: transformed FT to CSS with SD
 
-      - name: Create an incremental release
-        uses: aurestic/incrementarl-create-release@master
-        with:
-          message: Increase Version
+      - uses: actions-ecosystem/action-release-label@v1
+        id: releaseLabel
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create an incremental release
+        uses: actions-ecosystem/action-bump-semver@v1
+        id: increaseTag
+        with:
+          current_version: ${{ steps.latestTag.outputs.tag }}
+          level: ${{ steps.releaseLabel.outputs.level }}
