@@ -19,6 +19,22 @@ jobs:
       # Transform to CSS with SD
       - run: npm run transform2CSS
 
+      # Get the Latest Tag
+      - name: Get Latest Tag
+        id: latestTag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1.0.0
+
+      # Create version.json
+      - name: Create version.json
+        id: createVersionJson
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "version.json"
+          json: ${{ setps.latestTag.outputs.tag }}
+          dir: "dist/"
+
       # Add files that were created.
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
